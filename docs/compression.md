@@ -1,10 +1,10 @@
 ﻿# COMPRESSIONE DEI TESTI A "NIBBLE"
 
-Uno degli elementi più "ingombranti" dei programmi scritti in BASIC V2 sono sicuramente i testi: messaggi di errore, descrizioni, etichette, istruzioni ... tutto deve essere fortemente ridotto per risparmiare spazio prezioso per il resto del programma. Questo vale sia per applicazioni più che meno serie, come i giochi, e diventa fondamentale in quei giochi in cui i testi sono essenziali.
+Uno degli elementi più "ingombranti" dei programmi scritti in BASIC V2 sono sicuramente i testi: messaggi di errore, descrizioni, etichette, istruzioni ... tutto deve essere fortemente ridotto per risparmiare spazio prezioso per il resto del programma. Questo vale sia per tutti i tipi di applicazion, compresi i giochi, e diventa fondamentale in quei giochi in cui i testi sono essenziali.
 
 Mi riferisco, ovviamente, alle cosiddette "avventure testuali" e sarebbe fantastico se trovassimo un modo per rappresentare i testi in modo più "compatto".
 
-in generale. Il modo migliore per risolvere questo problema è prendere in considerazione la bassa variabilità delle lettere e, quindi, utilizzare una rappresentazione di nibble (4 bit) anziché un byte (8 bit).
+In generale, il modo migliore per risolvere questo problema è prendere in considerazione la bassa variabilità delle lettere e, quindi, utilizzare una rappresentazione a nibble (4 bit) anziché a byte (8 bit).
 
 ![Un nibble è di 4 bit o metà di un byte. Una cifra esadecimale ha una dimensione di un nibble. Source: Wikipedia.](nibble.png)
 
@@ -12,9 +12,9 @@ Questo approccio ridurrebbe idealmente l'occupazione dello spazio necessario esa
 
 Tuttavia, se assegnassimo le lettere più frequenti in quel testo a questi 16 simboli, **ridurremmo statisticamente l'occupazione di memoria** poiché useremo più frequentemente un nibble anziché un byte.
 
-Per poter codificare qualsiasi testo generico, dovremo comunque sacrificare alcuni dei valori rappresentabili, per introdurre un meccanismo per tornare (temporaneamente) alla rappresentazione a 8 bit, quandose ne ravveda il bisogno.
+Per poter codificare qualsiasi testo generico, dovremo comunque sacrificare alcuni dei valori rappresentabili, per introdurre un meccanismo per tornare (temporaneamente) alla rappresentazione a 8 bit, quando se ne ravveda il bisogno.
 
-Per fare un esempio, prenderò il seguente testo da [10LINES ADV (edizione italiana)] (https://github.com/spotlessmind1975/adv10):
+Per fare un esempio, prenderò il seguente testo da [10LINES ADV (edizione italiana)](https://github.com/spotlessmind1975/adv10):
 
 > NEL MEZZO DEL CORRIDOIO. VEDI DUE STANZE, A NORD E SUD. C'E' UNA PORTA A EST.
 
@@ -41,11 +41,7 @@ Questa stringa è lunga esattamente 78 caratteri e ha 19 lettere diverse. Se lo 
     </tr>
 </table>
 
-Supponiamo ora di utilizzare la seguente tabella di corrispondenze: ho creato questa tabella ordinando le lettere, dalla più frequente alla meno frequente in quel testo:
-
-19Array ( [0] => e [1] => o [2] => d [3] => a [4] => n [5] => r [6] => t [7] => s [8] => u [9] => i [10] => . [11] => z [12] => c [13] => l [14] => ' [15] => v [16] => m [17] => , [18] => p )
-
-Now, we suppose to use the following correspondence table. I built this table by ordering the letters from the most frequent to the least one in that text:
+Supponiamo ora di utilizzare la seguente tabella di corrispondenze, ordinando le lettere dalla più frequente alla meno frequente in quel testo:
 
 <table>
     <tr>
@@ -130,7 +126,7 @@ Now, we suppose to use the following correspondence table. I built this table by
     </tr>
 </table>
 
-Ora prendiamo una parte del testo precedente e lo esprimiamo usando i numeri esadecimali della tabella delle frequenze precedente:
+Ora prendiamo una parte del testo precedente ed esprimiamolo usando i numeri esadecimali della tabella delle frequenze precedente:
 
 <table>
     <tr>
@@ -172,9 +168,9 @@ Poiché tutti questi numeri possono essere rappresentati con un solo nibble (4 b
 
 Il testo "due st", che in precedenza occupava 6 byte, dopo il "processo" occupa solo 3 byte. **Pertanto abbiamo risparmiato il 50% dello spazio!**
 
-Se la lettera non è tra quelle in corrispondenza, abbiamo bisogno di un valore aggiuntivo, (escape) (14, hex. E). Questo valore rappresenta una "sequenza di escape" e indica che la lettera non verrà rappresentata con un nibble ma con il byte successivo.
+Se la lettera non è tra quelle in corrispondenza, abbiamo bisogno di un valore aggiuntivo, il valore (escape) (14, hex. E). Questo valore rappresenta una "sequenza di escape" e indica che la lettera non verrà rappresentata con un nibble ma con il byte successivo.
 
-Nell'esempio sopra, se dovessimo tradurre "NE" avremmo avuto la seguente sequenza:
+Nell'esempio sopra, se dovessimo tradurre "ME" avremmo avuto la seguente sequenza:
 
 <table>
     <tr>
@@ -239,7 +235,7 @@ Ad esempio, con un testo di 256 caratteri si ottiene un risparmio di 46 caratter
 Per rendere riutilizzabile questo algoritmo, il decodificatore è stato implementato **come una singola riga di codice BASIC V2** di esattamente 251 caratteri. Questa routine si trova sulla riga 9 del programma **adv10** e può essere chiamata come subroutine (<code>GOSUB 9</code>), purché si usi <code>RETURN</code> nella riga seguente.
 
 Si devono passare le seguenti variabili come parametri:
-- in **v$** il dizionario delle lettere (una string adi 16 caratteri);
+- in **v$** il dizionario delle lettere (una stringa di 16 caratteri);
 - in **e$** la sequenza di byte da decomprimere;
 - in **f** la lunghezza di questa sequenza;
 - in **z** il carattere di partenza, dal quale iniziare la decodifica.
@@ -258,7 +254,7 @@ Segue la routine commentata, in cui le tecniche "in una riga" sono state abbando
 59 REM
 60 REM ESEMPIO (tratto da "adv10.bas")
 61 v$="aneotisuldrc.p"
-62 e$=""{050}{249}{062}{077}{238}{090}{090}{244}{058}{249}{076}{187}{166}{100}{212}{239}{086}{163}{246}{138}{243}{087}{033}{062}{090}{254}{044}{241}{066}{171}{063}{127}{168}{253}{236}{039}{227}{039}{143}{018}{239}{080}{180}{021}{031}{063}{087}{237}{032}"
+62 e$="{050}{249}{062}{077}{238}{090}{090}{244}{058}{249}{076}{187}{166}{100}{212}{239}{086}{163}{246}{138}{243}{087}{033}{062}{090}{254}{044}{241}{066}{171}{063}{127}{168}{253}{236}{039}{227}{039}{143}{018}{239}{080}{180}{021}{031}{063}{087}{237}{032}"
 63 f=len(e$)
 64 z=1
 65 GOSUB 100
@@ -277,15 +273,15 @@ Segue la routine commentata, in cui le tecniche "in una riga" sono state abbando
 210 REM Sono lettere?
 220 l0=(n0<14):l1=(n1<14)
 230 REM Stampiamo il primo e il secondo carattere
-240 if v0 then print mid$(e$,z+1,1); REM primo = escape
-250 if s0 then print " "; REM primo = spazio
-260 if l0 then print mid$(v$,n0,1); REM primo = lettera
-270 if v1 then print mid$(e$,z+(v0=0)+2,1); REM secondo = escape
-280 if s1 then print " "; REM secondo = spazio
-290 if l1 then print mid$(v$,n1,1); REM secondo = lettera
+240 if v0 then print mid$(e$,z+1,1);: REM primo = escape
+250 if s0 then print " ";: REM primo = spazio
+260 if l0 then print mid$(v$,n0,1);: REM primo = lettera
+270 if v1 then print mid$(e$,z+(v0=0)+2,1);: REM secondo = escape
+280 if s1 then print " ";: REM secondo = spazio
+290 if l1 then print mid$(v$,n1,1);: REM secondo = lettera
 300 REM Andiamo avanti sulla sequenza, tenendo conto del fatto che
 310 REM ogni sequenza di escape implica andare avanti di un byte in piu'.
-320 REM Quindi si può andare avanti da 1 a 3 byte alla volta.
+320 REM Quindi si puo' andare avanti da 1 a 3 byte alla volta.
 330 z=z-v0-v1+1
 340 REM Decodifica terminata?
 350 ifz<=fthen100
