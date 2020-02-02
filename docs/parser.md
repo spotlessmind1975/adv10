@@ -1,8 +1,8 @@
 ﻿# UN INTERPRETE DEDUTTIVO
 
-L'interprete rappresenta una delle maggiori difficoltà per chi programma un gioco di avventura testuale. In parte perché il linguaggio naturale è ambiguo e richiede molte analisi per comprendere l'intenzione del giocatore; un po perché l'estrema libertà lasciata al giocatore determina un grande sforzo nel predire le interazioni più frequenti.
+L'interprete rappresenta una delle maggiori difficoltà per chi programma un gioco di avventura testuale. In parte perché il linguaggio naturale è ambiguo e richiede molte analisi per comprendere l'intenzione del giocatore; in parte perché l'estrema libertà lasciata al giocatore determina un grande sforzo nel predire le interazioni più frequenti.
 
-Era impensabile introdurre un interprete sofisticato con così poche righe disponibili,. D'altra parte, volendo lasciare l'illusione di una libertà di digitazione, era comunque necessario gestire i casi più importanti, restituendo un messaggio di incomprensione quando non era possibile comprendere ciò che l'utente aveva digitato. Le dimensioni ridotte della sceneggiatura hanno permesso di adottare un meccanismo di analisi dell'input deduttivo. È stato quindi possibile dedurre l'insieme di parole da riconoscere e la loro combinazione. In breve, **la presenza di alcune lettere nella digitazione implica l'interpretazione di quei comandi e azioni specifici**.
+Era impensabile introdurre un interprete sofisticato con così poche righe disponibili. D'altra parte, volendo lasciare l'illusione di una libertà di digitazione, era comunque necessario gestire i casi più importanti, restituendo un messaggio di incomprensione quando non era possibile comprendere ciò che l'utente aveva digitato. Le dimensioni ridotte della sceneggiatura hanno permesso di adottare un meccanismo di analisi dell'input deduttivo. È stato quindi possibile dedurre l'insieme di parole da riconoscere e la loro combinazione. In breve, **la presenza di alcune lettere nella digitazione implica l'interpretazione di quei comandi e azioni specifici**.
 
 Qui sotto elenchiamo l'insieme di verbi necessari:
 
