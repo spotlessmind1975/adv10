@@ -3,7 +3,7 @@
 <div style="color:red; font-weight: bold;">**AVVISO SPOILER**</div>
 <div style="color:red;">Continuando a leggere, verrai a conoscenza di alcuni dettagli del gioco, che potrebbero precludere la possibilità di giocarvi.</div>
 
-## INTRODUCTION
+## INTRODUZIONE
 
 Lo stato del gioco è rappresentato da un insieme di variabili, che descrivono i fatti salienti del gioco. Le variabili sono:
 
