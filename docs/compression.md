@@ -1,6 +1,6 @@
 ﻿# COMPRESSIONE DEI TESTI A "NIBBLE"
 
-Uno degli elementi più "ingombranti" dei programmi scritti in BASIC V2 sono sicuramente i testi: messaggi di errore, descrizioni, etichette, istruzioni ... tutto deve essere fortemente ridotto per risparmiare spazio prezioso per il resto del programma. Questo vale sia per tutti i tipi di applicazion, compresi i giochi, e diventa fondamentale in quei giochi in cui i testi sono essenziali.
+Uno degli elementi più "ingombranti" dei programmi scritti in BASIC V2 sono sicuramente i testi: messaggi di errore, descrizioni, etichette, istruzioni ... tutto deve essere fortemente ridotto per risparmiare spazio prezioso per il resto del programma. Questo vale sia per tutti i tipi di applicazioni, compresi i giochi, e diventa fondamentale in quei giochi in cui i testi sono essenziali.
 
 Mi riferisco, ovviamente, alle cosiddette "avventure testuali" e sarebbe fantastico se trovassimo un modo per rappresentare i testi in modo più "compatto".
 
@@ -22,21 +22,12 @@ Questa stringa è lunga esattamente 78 caratteri e ha 19 lettere diverse. Se lo 
 
 <table>
     <tr>
-        <td>"I"</td>
         <td>"N"</td>
-        <td>(spazio)</td>
-        <td>"T"</td>
-        <td>"H"</td>
         <td>"E"</td>
-        <td>...</td>
-    </tr>
-    <tr>
-        <td>7</td>
-        <td>6</td>
-        <td>F</td>
-        <td>2</td>
-        <td>9</td>
-        <td>5</td>
+        <td>"L"</td>
+        <td>(spazio)</td>
+        <td>"M"</td>
+        <td>"E"</td>
         <td>...</td>
     </tr>
 </table>
@@ -45,9 +36,9 @@ Supponiamo ora di utilizzare la seguente tabella di corrispondenze, ordinando le
 
 <table>
     <tr>
-        <th>LETTER</th>
-        <th>DECIMAL (4 bit)</th>
-        <th>HEXADECIMAL (4 bit)</th>
+        <th>LETTERA</th>
+        <th>DECIMALE (4 bit)</th>
+        <th>ESADECIMALE (4 bit)</th>
     </tr>
     <tr>
         <td>"E"</td>
@@ -142,7 +133,7 @@ Ora prendiamo una parte del testo precedente ed esprimiamolo usando i numeri esa
         <td>3</td>
         <td>9</td>
         <td>1</td>
-        <td>14</td>
+        <td>D</td>
         <td>8</td>
         <td>7</td>
         <td>...</td>
@@ -159,9 +150,9 @@ Poiché tutti questi numeri possono essere rappresentati con un solo nibble (4 b
         <td>...</td>
     </tr>
     <tr>
-        <td>76</td>
-        <td>F2</td>
-        <td>95</td>
+        <td>39</td>
+        <td>1D</td>
+        <td>87</td>
         <td>...</td>
     </tr>
 </table>
