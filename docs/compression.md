@@ -207,9 +207,293 @@ Ad esempio:
     </tr>
 </table>
 
-Si tenga in debito conto il fatto che un nibble con valore 0 è escluso, al fine di evitare che una doppia sequenza di questo valore possa emettere un byte di uscita non valido (uguale a 00). In generale, alcune sequenze potrebbero non essere valide sul sistema di destinazione e pertanto devono essere sostituite con un doppio nibble "EE", seguito dai due caratteri "così come sono". Uno di questi casi è il carattere di virgolette (") su COMMODORE 64, utilizzato per racchiudere una stringa.
+Purtroppo, a seconda del sistema di destinazione dove si andrà a rappresentare la sequenza di byte così ottenuta, alcune di queste combinazioni potrebbero non essere valide, per uno o più di questi motivi (sono ordinati dal motivo più grave a quello più lieve, e tra parentesi ho indicato il livello di "gravità"):
 
-Per valutare la quantità di risparmio che potremmo ottenere applicando questo schema di compressione, dobbiamo verificare la relazione tra lo spazio occupato da tutti gli elementi necessari per ricostruire il testo rispetto alla lunghezza del testo originale. Ovviamente, poiché le performance variano in base al contenuto del testo, **non è possibile fornire una misura deterministica di tale rapporto**. Tuttavia, possiamo presentare un modello di stima (pessimistico) che tenga conto delle seguenti condizioni:
+* **si potrebbe impedire il listing corretto del programma**, perché dando il comando <code>LIST</code> i caratteri apparirebbero più volte o non apparirebbero affatto, oppure ingenererebbero un errore di sintassi (LIVELLO 4);
+* **si potrebbe impedire la digitazione del listato usando l'editor integrato**, perché alcuni caratteri non sarebbero digitabili  (LIVELLO 3);
+* **si potrebbe impedire il "riediting"**, perché la rappresentazione potrebbe cambiare con una modifica a posteriori (LIVELLO 2);
+* **si potrebbero introdurre dei caratteri ambigui**, per i quali vi sono più codici corrispondenti (LIVELLO 1).
+
+A tal riguardo è stato condotto uno studio empirico sui caratteri del COMMODORE 64, il quale mi ha portato a stilare una classifica secondo il succitato livello di gravità nei loro effetti collaterali, nel caso venissero adottati:
+
+<table>
+    <tr>
+        <th>LIVELLO</th>
+        <th>CARATTERI (dec./esad.)</th>
+    </tr>
+    <tr>
+        <td>
+        LIVELLO 4
+        </td>
+        <td>
+            <table>
+                <tr>
+                    <td>
+                        0
+                    </td>
+                    <td>
+                        00
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        10
+                    </td>
+                    <td>
+                        0A
+                    </td>
+                    <td>
+                        E' il carattere di <code>LINE FEED</code>.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        13
+                    </td>
+                    <td>
+                        0D
+                    </td>
+                    <td>
+                        E' il carattere di <code>INVIO</code>.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        20
+                    </td>
+                    <td>
+                        14
+                    </td>
+                    <td>
+                        E' il carattere per cancellare un carattere: se utilizzato
+                        "mangia" il carattere alla sua sinistra, tornando indietro di
+                        una posizione quando si effettua il <code>LIST</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        34
+                    </td>
+                    <td>
+                        22
+                    </td>
+                    <td>
+                        Sono le virgolette, che l'interprete utilizza per
+                        delimitare le stringhe nel listato BASIC V2.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        141
+                    </td>
+                    <td>
+                        8D
+                    </td>
+                    <td>
+                        E' la pressione dello SHIFT + RETURN: se utilizzato
+                        "manda a capo" quando si effettua il <code>LIST</code>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        LIVELLO 3
+        </td>
+        <td>
+            <table>
+                <tr>
+                    <td>
+                        130
+                    </td>
+                    <td>
+                        81
+                    </td>
+                    <td rowspan="5">
+                    Si tratta di caratteri per i quali non c'è una
+                    sequenza sulla tastiera del C=64 in grado di introdurli.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        131
+                    </td>
+                    <td>
+                        82
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        132
+                    </td>
+                    <td>
+                        83
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        143
+                    </td>
+                    <td>
+                        8f
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        222
+                    </td>
+                    <td>
+                        de
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        LIVELLO 2
+        </td>
+        <td>
+            <table>
+                <tr>
+                    <td>
+                        96
+                    </td>
+                    <td>
+                        60
+                    </td>
+                    <td rowspan="3">
+                    Sono caratteri che, se modificati,
+                    sono riconvertiti nei loro codici
+                    duplicati.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        ...
+                    </td>
+                    <td>
+                        ...
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        127
+                    </td>
+                    <td>
+                        7f
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        224
+                    </td>
+                    <td>
+                        e0
+                    </td>
+                    <td rowspan="3">
+                    Sono caratteri che, se modificati,
+                    sono riconvertiti nei loro codici
+                    duplicati.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        ...
+                    </td>
+                    <td>
+                        ...
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        253
+                    </td>
+                    <td>
+                        7f
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        LIVELLO 1
+        </td>
+        <td><table>
+                <tr>
+                    <td>
+                        192
+                    </td>
+                    <td>
+                        c0
+                    </td>
+                    <td rowspan="3">
+                    Sono caratteri che hanno la stessa
+                    rappresentazione grafica di altri caratteri.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        ...
+                    </td>
+                    <td>
+                        ...
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        223
+                    </td>
+                    <td>
+                        df
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        160
+                    </td>
+                    <td>
+                        a0
+                    </td>
+                    <td rowspan="3">
+                    Sono caratteri che hanno la stessa
+                    rappresentazione grafica di altri caratteri.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        ...
+                    </td>
+                    <td>
+                        ...
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        190
+                    </td>
+                    <td>
+                        254
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+Nonostante sia disponibile sempre l'escape doppio, ovvero sostituire il byte incriminato con un doppio nibble "EE", seguito dai due caratteri "così come sono", non sempre tale strategia risulta vincente o necessaria. Ad esempio, se ci si limitasse a un compressore di LIVELLO 4 (il livello più basso di compatibilità), basterebbe fare l'escape solo di quei pochi caratteri. 
+
+D'altra parte, anche l'ordine con cui si presentano le lettere nel dizionario può fare la differenza: infatti, queste due sequenze di dizionario
+
+![Lettere con una permutazione](letters.png)
+
+producono **esattamente** lo stesso livello di compressione: tuttavia, organizzano i nibble, e quindi i byte, in uscita in modo diverso. E' così possibile immaginare di trovare **un diverso ordinamento** di tali lettere, al fine di minimizzare il ricorso alle sequenze di escape.
+
+Infine, per valutare la quantità di risparmio che potremmo ottenere applicando questo schema di compressione, dobbiamo verificare la relazione tra lo spazio occupato da tutti gli elementi necessari per ricostruire il testo rispetto alla lunghezza del testo originale. Ovviamente, poiché le performance variano in base al contenuto del testo, **non è possibile fornire una misura deterministica di tale rapporto**. Tuttavia, possiamo presentare un modello di stima (pessimistico) che tenga conto delle seguenti condizioni:
 
  - **che il 50% del testo** possa essere codificato da 2 nibble (2 bytes to 1 bytes);
  - **che il 40% del testo** possa essere codificato da 1 nibble e da una sequenza di escape (2 bytes to 2 bytes);
