@@ -209,10 +209,10 @@ Ad esempio:
 
 Purtroppo, a seconda del sistema di destinazione dove si andrà a rappresentare la sequenza di byte così ottenuta, alcune di queste combinazioni potrebbero non essere valide, per uno o più di questi motivi (sono ordinati dal motivo più grave a quello più lieve, e tra parentesi ho indicato il livello di "gravità"):
 
-* **si potrebbe impedire il listing corretto del programma**, perché dando il comando <code>LIST</code> i caratteri apparirebbero più volte o non apparirebbero affatto, oppure ingenererebbero un errore di sintassi (LIVELLO 4);
-* **si potrebbe impedire la digitazione del listato usando l'editor integrato**, perché alcuni caratteri non sarebbero digitabili  (LIVELLO 3);
-* **si potrebbe impedire il "riediting"**, perché la rappresentazione potrebbe cambiare con una modifica a posteriori (LIVELLO 2);
-* **si potrebbero introdurre dei caratteri ambigui**, per i quali vi sono più codici corrispondenti (LIVELLO 1).
+* **si potrebbe impedire il listing corretto del programma**, perché dando il comando <code>LIST</code> i caratteri apparirebbero più volte o non apparirebbero affatto, oppure ingenererebbero un errore di sintassi (LIVELLO 1);
+* **si potrebbe impedire la digitazione del listato usando l'editor integrato**, perché alcuni caratteri non sarebbero digitabili  (LIVELLO 2);
+* **si potrebbe impedire il "riediting"**, perché la rappresentazione potrebbe cambiare con una modifica a posteriori (LIVELLO 3);
+* **si potrebbero introdurre dei caratteri ambigui**, per i quali vi sono più codici corrispondenti (LIVELLO 4).
 
 A tal riguardo è stato condotto uno studio empirico sui caratteri del COMMODORE 64, il quale mi ha portato a stilare una classifica secondo il succitato livello di gravità nei loro effetti collaterali, nel caso venissero adottati:
 
@@ -223,7 +223,7 @@ A tal riguardo è stato condotto uno studio empirico sui caratteri del COMMODORE
     </tr>
     <tr>
         <td>
-        LIVELLO 4
+        LIVELLO 1
         </td>
         <td>
             <table>
@@ -301,7 +301,7 @@ A tal riguardo è stato condotto uno studio empirico sui caratteri del COMMODORE
     </tr>
     <tr>
         <td>
-        LIVELLO 3
+        LIVELLO 2
         </td>
         <td>
             <table>
@@ -354,7 +354,7 @@ A tal riguardo è stato condotto uno studio empirico sui caratteri del COMMODORE
     </tr>
     <tr>
         <td>
-        LIVELLO 2
+        LIVELLO 3
         </td>
         <td>
             <table>
@@ -421,7 +421,7 @@ A tal riguardo è stato condotto uno studio empirico sui caratteri del COMMODORE
     </tr>
     <tr>
         <td>
-        LIVELLO 1
+        LIVELLO 4
         </td>
         <td><table>
                 <tr>
@@ -485,7 +485,7 @@ A tal riguardo è stato condotto uno studio empirico sui caratteri del COMMODORE
     </tr>
 </table>
 
-Nonostante sia disponibile sempre l'escape doppio, ovvero sostituire il byte incriminato con un doppio nibble "EE", seguito dai due caratteri "così come sono", non sempre tale strategia risulta vincente o necessaria. Ad esempio, se ci si limitasse a un compressore di LIVELLO 4 (il livello più basso di compatibilità), basterebbe fare l'escape solo di quei pochi caratteri. 
+Nonostante sia disponibile sempre l'escape doppio, ovvero sostituire il byte incriminato con un doppio nibble "EE", seguito dai due caratteri "così come sono", non sempre tale strategia risulta vincente o necessaria. Ad esempio, se ci si limitasse a un compressore di LIVELLO 1 (il livello più basso di compatibilità), basterebbe fare l'escape solo di quei pochi caratteri. 
 
 D'altra parte, anche l'ordine con cui si presentano le lettere nel dizionario può fare la differenza: infatti, queste due sequenze di dizionario
 
