@@ -507,7 +507,7 @@ L'andamento del grafico con le varie lunghezze presenta un punto di equilibrio i
 
 Ad esempio, con un testo di 256 caratteri si ottiene un risparmio di 46 caratteri, raggiungendo un rapporto di compressione di circa l'86%. Con 1 KB di testo si ottiene un rapporto dell'81% e un risparmio netto di 190 caratteri. In realtà, **i risparmi sono maggiori e ciò rende l'utilizzo di questa tecnica molto vantaggioso**, specialmente se i testi possono essere modificati per ottimizzare il contenuto.
 
-Per rendere riutilizzabile questo algoritmo, il decodificatore è stato implementato **come una singola riga di codice BASIC V2** di esattamente 251 caratteri. Questa routine si trova sulla riga 9 del programma **adv10** e può essere chiamata come subroutine (<code>GOSUB 9</code>), purché si usi <code>RETURN</code> nella riga seguente.
+Per rendere riutilizzabile questo algoritmo, il decodificatore è stato implementato **come una singola riga di codice BASIC V2** di esattamente 247 caratteri. Questa routine si trova sulla riga 9 del programma **adv10** e può essere chiamata come subroutine (<code>GOSUB 9</code>), purché si usi <code>RETURN</code> nella riga seguente.
 
 Si devono passare le seguenti variabili come parametri:
 - in **v$** il dizionario delle lettere (una stringa di 16 caratteri);
