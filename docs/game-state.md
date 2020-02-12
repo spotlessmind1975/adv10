@@ -28,6 +28,8 @@ La stanza in cui si trova il giocatore (**x**) è una delle sei stanze del gioco
 
 La ripetizione della "stanza iniziale" per i valori 0 e 1 è necessaria per poter produrre una diversa descrizione della stessa. La differenza è tra la prima volta che viene mostrata al giocatore e la successiva, e sta interamente nel punto iniziale della decodifica della descrizione. Questa tecnica consente di aggiungere e un ulteriore livello di compressione nelle descrizioni. È utilizzata anche in altre parti del gioco (come, ad esempio, nell'inventario). Pertanto, la prima volta che viene visualizzata la descrizione della stanza iniziale, il numero della stanza viene automaticamente cambiato da 0 a 1 (**x = 1**).
 
+## MAPPA DEL GIOCO E CONNESSIONI
+
 ![Connections between rooms](directions.png)
 
 Le connessioni tra le stanze sono descritte da una singola matrice di 6 righe per 4 colonne, linearizzata come una stringa nella variabile **m$**. Una riga di 4 cifre rappresenta una stanza, mentre ogni colonna (6 cifre) rappresenta il nuovo valore di **x** se l'utente sceglie di spostarsi (rispettivamente) verso **N**ord (prima cifra), **S**ud (seconda cifra), **O**vest (terza cifra) o **E**st (quarta cifra) a partire da quella specifica stanza.
