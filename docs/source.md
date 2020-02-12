@@ -378,7 +378,7 @@ x*(r=0)</pre></td>
     </tr>
 </table>
 
-### RISPOSTA (LINE 8)
+### RISPOSTA (LINEA 8)
 
 Ora dobbiamo calcolare la risposta. Implica il test di una serie di possibilità:
 - che il programma non ha capito cosa intendesse il giocatore;
