@@ -6,7 +6,7 @@ Di seguito si trova il codice sorgente del videogioco. Il codice sorgente è sta
 
 *L'ordine delle linee in questa sezione va dalla riga più corta a quella più lunga. In questo modo, ottimizzeremo lo spazio disponibile nelle prime tre righe di codice.*
 
-Impostiamo la stanza (**x**) su zero. Successivamente la modificheremo automaticamente o in base alle azioni eseguite dal giocatore. Si veda anche [la stanza corrente (X)](/docs/game-state.md#la-stanza-attuale-x)
+Impostiamo la stanza (**x**) su zero. Successivamente la modificheremo automaticamente o in base alle azioni eseguite dal giocatore. Si veda anche [la stanza attuale (X)](/docs/game-state.md#la-stanza-attuale-x)
 
 <pre>1 x=0</pre>
 
@@ -18,7 +18,7 @@ Cancella lo schermo (lo facciamo solo una volta!).
 
 <pre>print "{clear}";</pre>
 
-Puntatore all'inizio della memoria video dei caratteri (k) e della memoria video dei colori (n). Qui è dove inizieremo a scampare il punteggio, ovvero sulla 37a colonna della prima riga. Sul Commodore 64, la memoria video dei caratteri inizia dalla posizione 1024 e la memoria colori inizia da 55296, quindi: 1024 + 37 = 1061; 55296 + 37 = 55333. *Questa è un'ottimizzazione quando si effettua il "poke" dei valori sullo schermo, e non è direttamente correlata al gioco.*
+Puntatore all'inizio della memoria video dei caratteri (**k**) e della memoria video dei colori (**n**). Qui è dove inizieremo a scampare il punteggio, ovvero sulla 37a colonna della prima riga. Sul Commodore 64, la memoria video dei caratteri inizia dalla posizione 1024 e la memoria colori inizia da 55296, quindi: 1024 + 37 = 1061; 55296 + 37 = 55333. *Questa è un'ottimizzazione quando si effettua il "poke" dei valori sullo schermo, e non è direttamente correlata al gioco.*
 
 <pre>k=1061 : n=55333</pre>
 
@@ -30,7 +30,7 @@ Da questo momento in poi, dichiariamo i testi relativi ai vari componenti del gi
 
 <pre>dim d$(17)</pre>
 
-Modificare il numero del dispositivo I/O corrente su 32. Seguendo [questa guida](https://www.c64-wiki.com/wiki/Zeropage), si nota come siano utilizzati solo i primi 5 bit. Quindi, impostando 32, ripristineremo la tastiera ma la useremo come "file". Questo disabiliterà la stampa del punto interrogativo (<code>?</code>) sull'input da tastiera - lo sostituiremo con un simbolo "maggiore di" esplicito, e più classico (<code>></code>).
+Modifichiamo il numero del dispositivo I/O corrente su 32. Seguendo [questa guida](https://www.c64-wiki.com/wiki/Zeropage), si nota come siano utilizzati solo i primi 5 bit. Quindi, impostando 32, ripristineremo la tastiera ma la useremo come "file". Questo disabiliterà la stampa del punto interrogativo (<code>?</code>) sull'input da tastiera - lo sostituiremo con un simbolo "maggiore di" esplicito, e più classico (<code>></code>).
 
 <pre>poke 19,32</pre>
 
@@ -59,7 +59,7 @@ Messaggio: <code>sul piedistallo.</code>
 Messaggio: <code>in una sala torture.</code>
 <pre>d$(5)="{148}{095}{217}{063}{173}{253}{043}{177}{021}{108}"</pre>
 
-Qui troviamo il "dizionario" utilizzato per l'algoritmo di [compressione](/docs/compressione.md). La sequenza di caratteri è stata scelta con cura, in modo che le sequenze di escape siano ridotte al minimo. Si noti che solo i primi tredici (13) caratteri vengono utilizzati dalla codifica; il resto sono caratteri arbitrari ("*"). *L'estensione di 16 caratteri è necessaria per evitare situazioni di overflow nella routine di decompressione, quando vengono rilevati nibble rappresentanti sequenze di escape o lo spazio.*
+Qui troviamo il "dizionario" utilizzato per l'algoritmo di [compressione](/docs/compression.md). La sequenza di caratteri è stata scelta con cura, in modo che le sequenze di escape siano ridotte al minimo. Si noti che solo i primi tredici (13) caratteri vengono utilizzati dalla codifica; il resto sono caratteri arbitrari ("*"). *L'estensione a 16 caratteri della stringa è necessaria per evitare situazioni di "overflow" nella routine di decompressione, quando vengono rilevati nibble rappresentanti sequenze di escape (posizione 14) o lo spazio (posizione 15).*
 
 <pre>v$="rosiu.cdnltea***"</pre>
 
@@ -97,7 +97,7 @@ Messaggio: <code>in una stanza con un piedistallo. sul fossato, una corda sta pe
 Messaggio: <code>nel mezzo del corridoio. vedi due stanze, a nord e sud. c'e' una porta a est.</code>
 <pre>d$(2)="{201}{250}{206}{077}{238}{090}{090}{242}{200}{250}{039}{017}{132}{066}{098}{239}{086}{140}{244}{088}{252}{179}{157}{206}{090}{254}{044}{253}{041}{129}{207}{063}{133}{246}{231}{039}{236}{039}{095}{217}{239}{080}{018}{219}{223}{207}{179}{246}"</pre>
 
-Ok, questa è la prima volta che chiamiamo [la routine di decompressione che stampa una descrizione](/docs/compressione.md#un-decompressore-leggibile) (linea 9).*Lo chiameremo più volte.* In **e$** mettiamo il testo da stampare, in **f** ne mettiamo la lunghezza, mentre in **z** mettiamo la posizione da cui iniziare decomprimere. Prima di stampare, impostiamo il colore verde (per i titoli).
+Ok, questa è la prima volta che chiamiamo [la routine di decompressione che stampa una descrizione](/docs/compression.md#un-decompressore-leggibile) (linea 9). *Lo chiameremo più volte.* In **e$** mettiamo il testo da stampare, in **f** ne mettiamo la lunghezza, mentre in **z** mettiamo la posizione da cui iniziare decomprimere. Prima di stampare, impostiamo il colore verde (per i titoli).
 
 Prima linea dei titoli:
 <pre>print "{light green}";:z=1:e$=d$(12):f=len(e$):gosub9:print</pre>
@@ -143,7 +143,7 @@ x</pre></td>
     </tr>
 </table>
 
-Questa è la descrizione da stampare sullo schermo, che dipende sia dal numero della stanza (**x**) sia, con il giocatore nella stanza nr. 3, è diversificata [se il giocatore ha usato la corda o no](/docs/game-state.md#introduzione) (**g**).
+Questa è la descrizione da stampare sullo schermo, che dipende sia dal numero della stanza (**x**) sia, nel caso in cui il giocatore si trovi nella stanza nr. 3, [se il giocatore ha usato la corda o no](/docs/game-state.md#introduzione) (**g**).
 
 <table>
     <tr>
@@ -223,7 +223,7 @@ Aspettiamo che il giocatore digiti qualcosa (in grigio).
 
 <pre>input"{gray}>";p$</pre>
 
-Passiamo la stringa al [parser](/docs/parser.md). Per cercare di capire cosa ha scritto il giocatore, esaminiamo le 2 lettere in due diverse posizioni (1 e 9). Nota che potrebbe digitare MENO di nove caratteri: per questo motivo, aggiungeremo la stringa che rappresenta la mappa di gioco, per avere abbastanza lettere. *Questa è un'ottimizzazione e non ha nulla a che fare con la logica del gioco.*
+Passiamo la stringa al [parser](/docs/parser.md). Per cercare di capire cosa ha scritto il giocatore, esaminiamo le 2 lettere in due diverse posizioni (1 e 9). Nota che potrebbe digitare MENO di nove caratteri: per questo motivo, aggiungeremo in coda a quanto digitato la stringa che rappresenta la mappa di gioco, per avere abbastanza lettere. *Questa è un'ottimizzazione e non ha nulla a che fare con la logica del gioco.*
 
 <pre>p1$=mid$(p$+m$,1,1)
 p9$=mid$(p$+m$,9,1)</pre>
@@ -324,7 +324,7 @@ Se l'azione è "usa chiave" (v=6 e o=2), aggiorneremo lo stato, se la chiave non
     </tr>
 </table>
 
-Passiamo ora a calcolare quale sarebbe la stanza successiva SE le condizioni fossero soddisfatte. Innanzitutto, se il verbo è uno di quelli in movimento, la stanza dovrebbe essere quella indicata dalla mappa.
+Passiamo ora a calcolare quale sarebbe la stanza successiva SE le condizioni fossero state soddisfatte. Innanzitutto, se il verbo è uno di quelli in movimento, la stanza dovrebbe essere quella indicata dalla mappa.
 
 <table>
     <tr>
@@ -381,7 +381,7 @@ x*(r=0)</pre></td>
 ### RISPOSTA (LINE 8)
 
 Ora dobbiamo calcolare la risposta. Implica il test di una serie di possibilità:
-- che il programma non capiva cosa intendesse il giocatore;
+- che il programma non ha capito cosa intendesse il giocatore;
 - che il giocatore voleva muoversi, ma non poteva farlo;
 - che il giocatore voleva fare qualcosa, ma non poteva farlo.
 
@@ -473,7 +473,7 @@ Se la risposta è stata un errore (**j=1**), ci spostiamo al punto in cui chiedi
  
 <pre>on j+1 goto 4,5</pre>
 
-Questa è la routine di decompressione del testo ([vedi qui](/docs/compressione.md#un-decompressore-leggibile) per un programma più leggibile).
+Questa è la routine di decompressione del testo ([vedi qui](/docs/compression.md#un-decompressore-leggibile) per un programma più leggibile).
 
 <pre>9 w$=mid$(e$,z,1):y=asc(w$):
 n0=yand15:n1=(y/16)and15
